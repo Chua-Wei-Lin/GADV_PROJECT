@@ -8,22 +8,23 @@ public class ScoreManager : MonoBehaviour
 
     void Start()
     {
+        // Event-based updates ensure score changes respond exactly to gameplay events
         ItemDestruction.BoostCollect += ScoreAddTen;
         ItemDestruction.PowerCollect += ScoreAddFifty;
         ItemDestruction.LetterScore += ScoreAddHun;
 
     }
-    void ScoreAddTen()
+    void ScoreAddTen() // Small reward for basic boost pickup
     {
         currentScore += 10;
         scoreText.text = "Score: "+ currentScore;
     }
-    void ScoreAddFifty()
+    void ScoreAddFifty()// Larger reward for power-up collection
     {
         currentScore += 50;
         scoreText.text = "Score: " + currentScore;
     }
-    void ScoreAddHun()
+    void ScoreAddHun() // Biggest reward for completing letter objectives
     {
         currentScore += 100;
         scoreText.text = "Score: " + currentScore;

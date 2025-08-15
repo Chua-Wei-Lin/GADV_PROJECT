@@ -9,6 +9,7 @@ public class ItemDestruction : MonoBehaviour
     public static event Action LetterScore;
     void OnCollisionEnter2D(Collision2D collision)
     {
+        // Event-based approach decouples collision detection from game logic, making it easier to add/remove listeners
         if (collision.gameObject.CompareTag("Booster"))
         {
             BoostCollect?.Invoke();
@@ -24,7 +25,7 @@ public class ItemDestruction : MonoBehaviour
             LetterCollect?.Invoke(collision.collider);
             Destroy(collision.gameObject);// Destroys the object this collided with
         }
-        if (collision.gameObject.CompareTag("PowerUp"))
+        if (collision.gameObject.CompareTag("Letter"))
         {
             LetterScore?.Invoke();
             Destroy(collision.gameObject);// Destroys the object this collided with

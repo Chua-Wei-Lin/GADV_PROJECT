@@ -17,6 +17,7 @@ public class PoweringUp : MonoBehaviour
 
     private void PowCollected()
     {
+        // Delegates effect to PlayerDeath for consistent power-up handling
         PlayerDeath player = GetComponent<PlayerDeath>();
         if (player != null)
         {

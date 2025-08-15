@@ -15,6 +15,7 @@ public class PlayerMovement : MonoBehaviour
 
     void Update()
     {
+        // Keyboard checks use multiple options for broader player accessibility (WASD + arrows)
         if (Input.GetKey(KeyCode.A) || Input.GetKey(KeyCode.LeftArrow))
         {
             _direction = Vector2.left;
@@ -37,12 +38,14 @@ public class PlayerMovement : MonoBehaviour
         }
         else
         {
+            // Zero direction prevents unintended drift
             _direction = Vector2.zero;
         }
     }
 
     void FixedUpdate()
     {
+        // Physics movement handled in FixedUpdate for smooth, consistent frame-independent motion
         if (_direction != Vector2.zero)
         {
             _myRb.linearVelocity = _direction * speed; 
@@ -55,6 +58,7 @@ public class PlayerMovement : MonoBehaviour
 
     void UpdateDirectionBools(Vector2 dir)
     {
+        // Small thresholds prevent rapid animation flipping from micro input changes
         bool movingUp = dir.y > 0.1f;
         bool movingDown = dir.y < -0.1f;
         bool movingRight = dir.x > 0.1f;

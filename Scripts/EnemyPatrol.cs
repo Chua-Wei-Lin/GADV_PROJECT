@@ -58,6 +58,7 @@ public class EnemyPatrol : MonoBehaviour
     // Call this from EnemyDeath.Respawn()
     public void ResetPatrol()
     {
+        // Resets waypoint sequence as enemy can start fresh after respawning
         currentWaypointIndex = 0;
 
         if (waypoints.Length > 0)

@@ -4,17 +4,17 @@ using UnityEngine.SceneManagement;
 
 public class SpellingManager : MonoBehaviour
 {
-    [SerializeField] private WordArray wordArray;
-    [SerializeField] private LetterManager letterSetting;
-    [SerializeField] private TMP_Text targetWordTMP;  // Top word placeholder (optional, can hide)
-    [SerializeField] private TMP_Text progressTMP;    // Underscores display
+    [SerializeField] private WordArray wordArray; // Holds possible words for gameplay variety
+    [SerializeField] private LetterManager letterSetting; // Coordinates letter spawning logic
+    [SerializeField] private TMP_Text targetWordTMP;  // Top word placeholder 
+    [SerializeField] private TMP_Text progressTMP;    // Displays current progress with underscores
 
     private string currentWord;
     private char[] progress;
 
     private void OnEnable()
     {
-        ItemDestruction.LetterCollect += OnLetterCollected;
+        ItemDestruction.LetterCollect += OnLetterCollected; 
     }
 
     private void OnDisable()
@@ -24,19 +24,19 @@ public class SpellingManager : MonoBehaviour
 
     private void Start()
     {
-        StartNewWord();
+        StartNewWord(); // Ensures gameplay starts with a word loaded
     }
 
     private void StartNewWord()
     {
-        currentWord = wordArray.GetRandomWord();
+        currentWord = wordArray.GetRandomWord(); // Randomizes for replay value
         progress = new string('_', currentWord.Length).ToCharArray();
 
         if (targetWordTMP != null)
-            targetWordTMP.text = currentWord; // Or "" if you want to hide the answer
+            targetWordTMP.text = currentWord; 
 
         UpdateProgressDisplay();
-        letterSetting.SpawnLettersForWord(currentWord);
+        letterSetting.SpawnLettersForWord(currentWord); // Populates game world with matching and distractor letters
     }
 
     private void OnLetterCollected(Collider2D collision)
@@ -47,13 +47,14 @@ public class SpellingManager : MonoBehaviour
         char collectedChar = letter.GetLetter();
         bool updated = false;
 
+        // Only fills one matching slot per collection to pace game progression
         for (int i = 0; i < currentWord.Length; i++)
         {
             if (currentWord[i] == collectedChar && progress[i] == '_')
             {
                 progress[i] = collectedChar;
                 updated = true;
-                break;  // Stop after filling one position!
+                break;  
             }
         }
 
@@ -61,6 +62,7 @@ public class SpellingManager : MonoBehaviour
         {
             UpdateProgressDisplay();
 
+            // Reloads scene on word completion to restart gameplay loop
             if (new string(progress) == currentWord)
             {
                 Debug.Log("Word Complete!");
@@ -68,12 +70,13 @@ public class SpellingManager : MonoBehaviour
             }
         }
 
-        // Optional: clear or hide the collected letter
-        Destroy(collision.gameObject); // or set inactive, or fade out, etc.
+       
+        Destroy(collision.gameObject); 
     }
 
     private void UpdateProgressDisplay()
     {
+        // Spaces letters/underscores for readability
         progressTMP.text = string.Join(" ", progress);
     }
 

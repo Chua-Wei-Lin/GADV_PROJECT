@@ -13,6 +13,7 @@ public class LetterManager : MonoBehaviour
         {
             if (i < word.Length)
             {
+                // Uses real letters for actual target word slots
                 char letter = word[i];
                 textList[i].text = letter.ToString(); // Show the letter
 
@@ -25,7 +26,7 @@ public class LetterManager : MonoBehaviour
             }
             else
             {
-                // Optional: show distractor or clear
+                // Fills remaining slots with distractors to increase difficulty
                 char randomLetter = (char)('A' + Random.Range(0, 26));
                 textList[i].text = randomLetter.ToString();
 

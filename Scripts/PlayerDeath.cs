@@ -16,9 +16,9 @@ public class PlayerDeath : MonoBehaviour
 
     void Start()
     {
-        animator = GetComponent<Animator>();
+        animator = GetComponent<Animator>(); // Cached reference to avoid repeated GetComponent calls
         spawnPosition = transform.position; // store initial spawn
-
+        // Sets default state
         gameObject.tag = normalTag;
         if (animator != null && normalSprite != null)
             animator.runtimeAnimatorController = normalSprite;
@@ -26,6 +26,7 @@ public class PlayerDeath : MonoBehaviour
 
     void Update()
     {
+        // Timer-based expiration ensures power-ups don't last indefinitely
         if (IsPoweredUp)
         {
             powerUpTimer -= Time.deltaTime;
@@ -36,6 +37,7 @@ public class PlayerDeath : MonoBehaviour
 
     public void ActivatePowerUp(float duration)
     {
+        // Encapsulates activation to ensure all related states update consistently
         IsPoweredUp = true;
         powerUpTimer = duration;
 
@@ -46,6 +48,7 @@ public class PlayerDeath : MonoBehaviour
 
     private void EndPowerUp()
     {
+        // Restores original collision rules and visuals
         IsPoweredUp = false;
 
         gameObject.tag = normalTag;
@@ -55,11 +58,11 @@ public class PlayerDeath : MonoBehaviour
 
     public void Die()
     {
+        // Signals death visually and stops player control to avoid inconsistent state
         animator.SetBool("Death", true);
-        GetComponent<PlayerMovement>().enabled = false; // Stop movement
+        GetComponent<PlayerMovement>().enabled = false;
     }
-
-    // Called from animation event at end of death animation
+    // Triggered via animation event so timing syncs perfectly with visuals
     public void Respawn()
     {
         transform.position = spawnPosition;
